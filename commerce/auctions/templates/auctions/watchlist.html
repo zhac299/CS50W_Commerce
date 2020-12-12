@@ -1,0 +1,21 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <h1>Watchlist</h1> for <strong>{{user.username}}</strong>
+
+    {% for items in watchlistV %}
+        <ul>
+            <li><a href="{% url "listing" items.item_id %}">{{items.item_name}}</a></li>
+            <form action="{% url "watchlistView" %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger" name="delete-{{items.item_name}}">Delete</button>
+            </form>
+        </ul>
+    {% endfor %}
+
+    {% if msg %}
+        <br></br>
+        <strong>{{msg}}</strong>
+    {% endif %}
+{% endblock %}

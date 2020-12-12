@@ -1,0 +1,38 @@
+{% extends "auctions/layout.html" %}
+
+{% block body  %}
+
+    {% if msgErr1 %}
+        <strong>{{msgErr1}}</strong>
+    {% endif %}    
+    {% if msgErr2 %}
+        <strong>{{msgErr2}}</strong>
+    {% endif %}
+
+    {% if msg %}
+        <strong>{{msg}}</strong>        
+    {% endif %}
+    
+    <br></br>
+    <form action="{% url 'create' user.username%}" method="post">
+        {% csrf_token %}
+        <input type="text" name="item_name" placeholder="Item Name">
+        <br></br>
+        <textarea name="item_desc" rows="5" cols="50" placeholder="Item Description"></textarea>
+        <br></br>
+        <input type="number" name="item_price" min="0" step="any" placeholder="Enter a Price">
+        <br></br>
+        <input type="url" name="item_pic" placeholder="URL of Picture">
+        <br></br>
+        Choose a Category:
+        <select name="categories">
+            <option value="Fashion">Fashion</option>
+            <option value="Toys">Toys</option>
+            <option value="Electronic">Electronic</option>
+            <option value="Other">Other</option>
+        </select>
+        <br></br>
+        <input type="submit" name="submit">
+    </form>
+
+{% endblock  %}

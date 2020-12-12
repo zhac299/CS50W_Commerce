@@ -1,0 +1,16 @@
+{% extends "auctions/layout.html"%}
+
+{% block body %}
+    {% if user.is_authenticated %}
+        <strong>{{user.username}}</strong>
+        <br>
+        You have won the following items:
+        {% for item in user_items%}
+            <ul>
+                <li>{{item.item_name}}</li>
+            </ul>
+        {% endfor %}
+        <br></br>
+        You owe: <strong>{{total}}</strong>
+    {% endif %}
+{% endblock %}

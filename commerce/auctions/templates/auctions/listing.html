@@ -1,0 +1,61 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    {% if checkClosed == False%}
+        <h1><strong>{{listing_name}}</strong></h1> posted by {{og_poster}}
+        <br></br>
+        <img src="{{listing_url}}" alt="Listing Image" width="40%">        
+        <br></br>
+        <strong>Item Description:</strong> {{listing_desc}}
+        <br></br>
+        <strong>Price: </strong>£{{listing_price}}
+        <br></br>
+        <strong>Category: </strong>{{category}}
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        {% if checkClosed == False%}
+            <form action="{% url "listing" listing_id%}" method="post">
+                {% csrf_token %}
+                <span>
+                    <button type="submit" class="btn btn-primary" name="watchlistBut">Add to Watchlist</button>
+                    {% if currentUser == owner %}
+                    <button type="submit" class="btn btn-danger" name="deleteListing">Remove Listing</button>
+                    {% endif %}
+                </span>
+                <br></br>
+                {% if msg %}
+                    <strong>{{msg}}</strong>
+                    <br></br>
+                {% endif %}            
+                <strong>Bid:</strong>
+                <input type="number" name="bid" min="{{bid_price_min}}" placeholder="Enter a bid...">
+                by: <input type="text" value="{{user.username}}" name="username" readonly>
+                <input type="submit" name="submitBid">
+                <br></br>
+                <br></br>
+                <div>
+                    <textarea name="commentArea" placeholder="Enter a Comment" rows="5" cols="50"></textarea>                    
+                    <br></br>
+                    <input type="submit" name="commentSubmit">
+                </div>
+            </form>
+        {% else %}
+            <strong>{{msgDel}}</strong>
+        {% endif %}
+    {% endif %}
+
+    <br></br>
+    Comments:<br></br>
+    <div>
+    {% for text in comments%}
+        {{text.user_comment}}
+        posted by {{text.username}}
+        <br></br>
+    {% empty %}
+        No Comments        
+    {% endfor %}
+    </div>
+
+{% endblock %}
